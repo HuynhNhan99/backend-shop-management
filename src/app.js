@@ -11,7 +11,7 @@ const purchaseRoutes = require('./routes/purchaseRoutes');
 const authMiddleware = require('./middlewares/authMiddleware');
 
 const app = express();
-const FRONTEND_URL = process.env.FRONTEND_URL || 5000;
+const FRONTEND_URL = process.env.FRONTEND_URL;
 // 🧠 Cho phép frontend gửi cookie
 app.use(cors({
   origin: FRONTEND_URL,
