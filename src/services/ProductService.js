@@ -9,6 +9,10 @@ class ProductService {
     return ProductRepository.create(data);
   }
 
+  async update(id,data) {
+    return ProductRepository.updateById(id, data);
+  }
+
   async remove(id) {
     return ProductRepository.deleteById(id);
   }

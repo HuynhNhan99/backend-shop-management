@@ -11,14 +11,14 @@ const purchaseRoutes = require('./routes/purchaseRoutes');
 const authMiddleware = require('./middlewares/authMiddleware');
 
 const app = express();
-
+const FRONTEND_URL = process.env.FRONTEND_URL || 5000;
 // 🧠 Cho phép frontend gửi cookie
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: FRONTEND_URL,
   credentials: true, // ⚠️ Cho phép gửi cookie
 }));
 app.options('*', cors({
-  origin: "http://localhost:5173",
+  origin: FRONTEND_URL,
   credentials: true,
 }));
 

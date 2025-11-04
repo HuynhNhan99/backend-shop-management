@@ -22,9 +22,23 @@ class ProductController {
     }
   }
 
+  async update(req, res) {
+    try {
+      // allow only admin to create
+      if (req.user.role !== 'admin') return res.status(403).json({ error: 'No permission' });
+
+      const id = req.params.id;
+      await ProductService.update(id, req.body);
+      res.json({ message: 'Update'});
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  }
+
   async remove(req, res) {
     try {
       if (req.user.role !== 'admin') return res.status(403).json({ error: 'No permission' });
+
       const id = req.params.id;
       await ProductService.remove(id);
       res.json({ message: 'Deleted' });

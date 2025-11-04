@@ -1,4 +1,3 @@
 node_modules/
-src/config/ca.pem
 .env
 package-lock.json
