@@ -40,10 +40,6 @@ class AuthController {
                 maxAge: 7 * 24 * 60 * 60 * 1000, // 7 ngày
             });
 
-            // ✅ CORS cho cookie cross-domain
-            res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL);
-            res.setHeader('Access-Control-Allow-Credentials', 'true');
-
             // Trả về user info (frontend không cần token)
             res.json({ message: "Đăng nhập thành công", accessToken, user });
         } catch (err) {
