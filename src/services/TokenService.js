@@ -12,20 +12,19 @@ class TokenService {
   generate(user) {
     const accessToken = jwt.sign({ user_id: user.user_id, username: user.username, role: user.role }, SECRET, { expiresIn: JWT_EXPIRES_ACCESS });
     const refreshToken = jwt.sign({ user_id: user.user_id, username: user.username, role: user.role }, REFRESH_SECRET, { expiresIn: JWT_EXPIRES_REFRESS });
-
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
     return { accessToken, refreshToken, expiresAt }
   }
 
-  async refresh(oldToken) {
+  async refresh(oldRefreshToken) {
+    const found = await TokenRepository.findRefreshToken(oldRefreshToken);
     
-    const found = await TokenRepository.findRefreshToken(oldToken);
-
     if (!found) throw new Error('Refresh token không hợp lệ')
   
-    const payload = jwt.verify(oldToken, REFRESH_SECRET)
-    const newAccessToken = jwt.sign({ user_id: payload.user_id, username: payload.username, role: payload.role }, SECRET, { expiresIn: JWT_EXPIRES_ACCESS })
+    const user = jwt.verify(oldRefreshToken, REFRESH_SECRET)
+    const newAccessToken = jwt.sign({ user_id: user.user_id, username: user.username, role: user.role }, SECRET, { expiresIn: JWT_EXPIRES_ACCESS })
+   
     return newAccessToken
   }
 

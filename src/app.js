@@ -14,11 +14,17 @@ const app = express();
 const FRONTEND_URL = process.env.FRONTEND_URL;
 // 🧠 Cho phép frontend gửi cookie
 app.use(cors({
-  origin: FRONTEND_URL,
+  origin: [
+    'http://localhost:5173',
+    FRONTEND_URL
+  ],
   credentials: true, // ⚠️ Cho phép gửi cookie
 }));
 app.options('*', cors({
-  origin: FRONTEND_URL,
+  origin: [
+    'http://localhost:5173',
+    FRONTEND_URL
+  ],
   credentials: true,
 }));
 

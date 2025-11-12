@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const UserRepository = require('../repositories/UserRepository');
-const TokenReposiitory = require('../repositories/TokenRepository');
+const TokenRepository = require('../repositories/TokenRepository');
 const TokenService = require('./TokenService');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -28,7 +28,7 @@ class AuthService {
     
     // Tao refresToken 
     const { accessToken, refreshToken, expiresAt } = TokenService.generate(user);
-    await TokenReposiitory.saveRefreshToken(user.user_id, refreshToken, expiresAt)
+    await TokenRepository.saveRefreshToken(user.user_id, refreshToken, expiresAt);
 
     return { accessToken, refreshToken, user: { user_id: user.user_id, username: user.username, role: user.role } };
   }

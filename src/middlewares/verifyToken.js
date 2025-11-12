@@ -4,7 +4,8 @@ dotenv.config();
 const SECRET = process.env.JWT_SECRET || 'secret_key_cua_Nhan';
 
 function verifyToken(req, res, next) {
-  const token = req.cookies.accessToken;
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
   
   if (!token) return res.status(401).json({ error: 'Không có token' });
  
