@@ -12,19 +12,28 @@ const authMiddleware = require('./middlewares/authMiddleware');
 
 const app = express();
 const FRONTEND_URL = process.env.FRONTEND_URL;
-// 🧠 Cho phép frontend gửi cookie
+
+// 🧠 Cho phép cả local và vercel frontend
+const allowedOrigins = [
+  'http://localhost:5173',
+  FRONTEND_URL,
+];
+
+// ✅ Cấu hình CORS an toàn và linh hoạt
 app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    FRONTEND_URL
-  ],
-  credentials: true, // ⚠️ Cho phép gửi cookie
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // cho phép cookie
 }));
+
+// ✅ OPTIONS preflight cho toàn bộ domain hợp lệ
 app.options('*', cors({
-  origin: [
-    'http://localhost:5173',
-    FRONTEND_URL
-  ],
+  origin: allowedOrigins,
   credentials: true,
 }));
 
